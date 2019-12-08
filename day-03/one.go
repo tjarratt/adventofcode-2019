@@ -48,6 +48,8 @@ func main() {
 	}
 
 	var winning_distance int = 9999999999
+	println(fmt.Sprintf("We found %d intersections, first one is '(%#v)'", len(intersections), intersections[0]))
+
 	for _, point := range intersections {
 		distance := calculate_manhattan_distance(point)
 		if distance < winning_distance {
