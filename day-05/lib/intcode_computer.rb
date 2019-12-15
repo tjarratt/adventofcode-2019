@@ -11,8 +11,7 @@ class IntcodeComputer
       return program_data if instruction.terminate?
 
       begin
-        steps = instruction.evaluate(program_data)
-        eval_index += steps
+        eval_index = instruction.evaluate(program_data)
       rescue Exception => e
         puts "handled exception at index #{eval_index} for op #{raw_op}"
         raise e

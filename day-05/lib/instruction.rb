@@ -75,7 +75,7 @@ class AdditionInstruction < BaseInstruction
     b = program[index_for(2, program)]
     program[index_for(3, program)] = a + b
 
-    return instruction_size
+    return @eval_index + instruction_size
   end
 
   def instruction_size
@@ -89,7 +89,7 @@ class MultiplicationInstruction < BaseInstruction
     b = program[index_for(2, program)]
     program[index_for(3, program)] = a * b
 
-    return instruction_size
+    return @eval_index + instruction_size
   end
 
   def instruction_size
@@ -109,7 +109,7 @@ class ReadInputInstruction < BaseInstruction
     value = @reader.shift
     program[index_for(1, program)] = value
 
-    return instruction_size
+    return @eval_index + instruction_size
   end
 
   def instruction_size
@@ -127,7 +127,7 @@ class WriteOutputInstruction < BaseInstruction
     value = program[index_for(1, program)]
     @writer << value
 
-    return instruction_size
+    return @eval_index + instruction_size
   end
 
   def instruction_size
@@ -139,7 +139,7 @@ class TerminateInstruction < BaseInstruction
   def initialize; end
 
   def evaluate(program)
-    instruction_size
+    @eval_index + instruction_size
   end
 
   def instruction_size
