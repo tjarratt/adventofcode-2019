@@ -1,9 +1,10 @@
 class Node
-  attr_reader :name, :children
+  attr_reader :name, :children, :parents
 
   def initialize(name)
     @name = name
     @children = []
+    @parents = []
   end
 end
 
@@ -23,6 +24,7 @@ def construct_orbit_map(filename)
     child_node = orbit_map.fetch(child, Node.new(child))
 
     parent_node.children << child_node
+    child_node.parents << parent_node
 
     orbit_map[body] ||= parent_node
     orbit_map[child] ||= child_node
