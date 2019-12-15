@@ -2,6 +2,10 @@ require 'instruction/addition'
 require 'instruction/multiplication'
 require 'instruction/readinput'
 require 'instruction/writeoutput'
+require 'instruction/jump_if_true'
+require 'instruction/jump_if_false'
+require 'instruction/less_than'
+require 'instruction/equal'
 require 'instruction/terminate'
 
 module Instruction
@@ -16,6 +20,14 @@ module Instruction
       return Instruction::ReadInput.new(modes, eval_index, reader)
     elsif opcode == 4
       return Instruction::WriteOutput.new(modes, eval_index, writer)
+    elsif opcode == 5
+      return Instruction::JumpIfTrue.new(modes, eval_index)
+    elsif opcode == 6
+      return Instruction::JumpIfFalse.new(modes, eval_index)
+    elsif opcode == 7
+      return Instruction::LessThan.new(modes, eval_index)
+    elsif opcode == 8
+      return Instruction::Equal.new(modes, eval_index)
     elsif opcode == 99
       return Instruction::Terminate.new
     else
