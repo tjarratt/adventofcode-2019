@@ -27,7 +27,7 @@ describe 'Instructions' do
     let(:instruction) { Instruction.for(1, 0, [], []) }
 
     it 'adds two numbers' do
-      expect(instruction.is_a? AdditionInstruction).to(be_truthy)
+      expect(instruction.is_a? Instruction::Addition).to(be_truthy)
 
       state = [1, 0, 0, 0]
       instruction.evaluate(state)
