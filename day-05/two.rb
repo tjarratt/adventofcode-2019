@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'intcode', 'lib')
 
 require 'intcode_computer'
 
