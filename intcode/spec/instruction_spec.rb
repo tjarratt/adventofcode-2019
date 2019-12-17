@@ -47,4 +47,20 @@ describe 'Instructions' do
       expect(steps).to(eq(4))
     end
   end
+
+  describe 'multiplication' do
+    let(:instruction) { Instruction.for(2, 0, [], []) }
+
+    it 'handles simple multiplication' do
+      state = [2,3,0,3,99]
+
+      instruction.evaluate(state)
+      expect(state).to(eq [2,3,0,6,99])
+    end
+
+    it 'advances the evaluation index by 4' do
+      steps = instruction.evaluate([2, 0, 0, 0])
+      expect(steps).to(eq 4)
+    end
+  end
 end

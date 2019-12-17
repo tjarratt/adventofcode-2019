@@ -9,21 +9,24 @@ def main
   largest_diagnostic = -1
   permutations = (0..4).to_a.permutation.to_a
   permutations.each do |permutation|
-    next_input_signal = 0
+    next_signal = 0
 
-    5.times do
-      reader = [permutation.shift, next_input_signal]
-      writer = []
+    queues = 5.times.map { Queue.new }
+    computers = 5.times.map do |index|
+      reader = queues[index - 1]
+      writer = queues[index]
 
-      computer = IntcodeComputer.new
-      computer.evaluate(program.dup, reader, writer)
-
-      raise Exception.new("Unexpected multiple writes: #{writer}") if writer.size > 1
-      next_input_signal = writer.first
+      IntcodeComputer.new(reader, writer)
     end
 
-    if next_input_signal > largest_diagnostic
-      largest_diagnostic = next_input_signal
+    computers.each { |c| c.reader << permutation.shift }
+    computers.first.reader << 0
+    computers.each { |c| c.evaluate(program.dup) }
+    sleep 0.1 while computers.any?(&:running?)
+
+    next_signal = computers.last.writer.pop
+    if next_signal > largest_diagnostic
+      largest_diagnostic = next_signal
     end
   end
 

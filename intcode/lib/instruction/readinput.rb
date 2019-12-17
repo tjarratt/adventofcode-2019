@@ -8,8 +8,6 @@ module Instruction
     end
 
     def evaluate(program)
-      raise Exception.new('input is empty ???') if @reader.empty?
-
       value = @reader.shift
       program[index_for(1, program)] = value
 
