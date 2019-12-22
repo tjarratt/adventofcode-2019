@@ -7,12 +7,13 @@ def main
     .strip
     .split('')
     .map(&:to_i)
+  # input = [0,2,2,2,1,1,2,2,2,2,1,2,0,0,0,0]
 
 
   image = Image.new(25, 6, input)
-  fewest_zero_layer = image.layers.sort_by { |l| l.how_many(0) }.first
+  # image = Image.new(2, 2, input)
 
-  puts fewest_zero_layer.how_many(1) * fewest_zero_layer.how_many(2)
+  image.save('tmp.png')
 end
 
 main
