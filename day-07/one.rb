@@ -22,7 +22,7 @@ def main
     computers.each { |c| c.reader << permutation.shift }
     computers.first.reader << 0
     computers.each { |c| c.evaluate(program.dup) }
-    sleep 0.1 while computers.any?(&:running?)
+    sleep 0.000001 while computers.any?(&:running?)
 
     next_signal = computers.last.writer.pop
     if next_signal > largest_diagnostic
