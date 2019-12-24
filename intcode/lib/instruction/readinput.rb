@@ -2,9 +2,9 @@ require 'instruction/base'
 
 module Instruction
   class ReadInput < Base
-    def initialize(input, eval_index, reader)
+    def initialize(input, eval_index, relative_base_setter, reader)
       @reader = reader
-      super(input, eval_index)
+      super(input, eval_index, relative_base_setter)
     end
 
     def evaluate(program)

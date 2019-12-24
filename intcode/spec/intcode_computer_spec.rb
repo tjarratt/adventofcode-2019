@@ -111,6 +111,24 @@ describe 'IntcodeComputer' do
     expect(output.pop).to(eq 1)
   end
 
+  it 'outputs large numbers using relative mode paramters' do
+    program = [9, 1, 204, 4, 99, 1125899906842624]
+    computer.evaluate(program)
+
+    expect(output.pop).to(eq 1125899906842624)
+  end
+
+  it 'can output quines' do
+    quine = [109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]
+
+    computer.evaluate(quine)
+    sleep 0.000001 while computer.running?
+
+    full_output = []; full_output << output.pop while output.size > 0
+
+    expect(full_output).to(eq quine)
+  end
+
   let :complex_branch_program do
     [
       3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,

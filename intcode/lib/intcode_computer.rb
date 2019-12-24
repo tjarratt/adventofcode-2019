@@ -1,3 +1,4 @@
+require 'program'
 require 'instruction'
 
 class IntcodeComputer
@@ -12,20 +13,22 @@ class IntcodeComputer
     @thread.status != false
   end
 
-  def evaluate(program_data)
+  def evaluate(data)
+    program = Program.new(data)
+
     @thread = Thread.new do
       eval_index = 0
+      @relative_index = 0
 
       while true do
-        raw_op = program_data[eval_index]
-        instruction = Instruction.for(raw_op, eval_index, @reader, @writer)
+        raw_op = program[eval_index]
+        instruction = Instruction.for(raw_op, eval_index, @reader, @writer, method(:update_relative_base))
 
         Thread.exit if instruction.terminate?
 
         begin
-          eval_index = instruction.evaluate(program_data)
+          eval_index = instruction.evaluate(program)
         rescue Exception => e
-          puts "handled exception at index #{eval_index} for op #{raw_op}"
           raise e
         end
       end
@@ -33,6 +36,10 @@ class IntcodeComputer
 
     # explicitly return nothing so we don't leak a thread to callers
     nil
+  end
+
+  def update_relative_base(offset)
+    @relative_index += offset
   end
 end
 

@@ -2,9 +2,9 @@ require 'instruction/base'
 
 module Instruction
   class WriteOutput < Base
-    def initialize(input, eval_index, writer)
+    def initialize(input, eval_index, relative_base_setter, writer)
       @writer = writer
-      super(input, eval_index)
+      super(input, eval_index, relative_base_setter)
     end
 
     def evaluate(program)

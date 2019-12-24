@@ -7,13 +7,17 @@ require 'intcode_computer'
 def main
   program = read_input
 
-  reader = [1]
-  writer = []
+  reader = Queue.new << 1
+  writer = Queue.new
 
-  computer = IntcodeComputer.new
-  new_program = computer.evaluate(program, reader, writer)
+  computer = IntcodeComputer.new(reader, writer)
+  computer.evaluate(program)
+  sleep 0.000001 while computer.running?
 
-  puts "diagnostic code: #{writer.last}"
+  while !writer.empty?
+    value = writer.pop
+    puts "diagnostic code: #{value}" if value != 0
+  end
 end
 
 def read_input

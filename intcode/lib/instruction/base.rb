@@ -1,10 +1,11 @@
 module Instruction
   class Base
-    attr_reader :param_nodes, :opcode, :eval_index
+    attr_reader :param_nodes, :opcode, :eval_index, :relative_index
 
-    def initialize(modes, eval_index)
+    def initialize(modes, eval_index, relative_index)
       @raw_modes = modes
       @eval_index = eval_index
+      @relative_index = relative_index
       @param_nodes = modes.reverse
     end
 
@@ -15,6 +16,8 @@ module Instruction
         return :position
       elsif raw_mode == '1'
         return :immediate
+      elsif raw_mode == '2'
+        return :relative
       else
         raise Exception.new("Unknown mode (#{raw_mode.inspect}) for parameter #{parameter}. Raw input: #{@raw_modes}")
       end
@@ -27,6 +30,10 @@ module Instruction
         return program[@eval_index + parameter]
       elsif mode == :immediate
         return @eval_index + parameter
+      elsif mode == :relative
+        return @relative_index + program[@eval_index + parameter]
+      else
+        raise Exception.new("Unknown mode #{mode}")
       end
     end
 

@@ -7,13 +7,13 @@ require 'intcode_computer'
 def main
   program = read_input
 
-  reader = [5]
-  writer = []
+  reader = Queue.new << 5
+  writer = Queue.new
 
-  computer = IntcodeComputer.new
-  new_program = computer.evaluate(program, reader, writer)
+  computer = IntcodeComputer.new(reader, writer)
+  computer.evaluate(program)
 
-  puts "diagnostic code: #{writer.last}"
+  puts "diagnostic code: #{writer.pop}"
 end
 
 def read_input

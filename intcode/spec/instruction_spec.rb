@@ -15,7 +15,7 @@ describe 'Instructions' do
     expect(opcode).to(eq(1))
     expect(modes).to(eq('011'))
 
-    instruction = Instruction.for(1101, 0, [], [])
+    instruction = Instruction.for(1101, 0, [], [], rel_base_setter)
     expect(instruction.param_nodes).to(eq('110'))
 
     expect(instruction.mode_for(parameter: 1)).to(eq(:immediate))
@@ -24,7 +24,7 @@ describe 'Instructions' do
   end
 
   describe 'addition' do
-    let(:instruction) { Instruction.for(1, 0, [], []) }
+    let(:instruction) { Instruction.for(1, 0, [], [], rel_base_setter) }
 
     it 'adds two numbers' do
       expect(instruction.is_a? Instruction::Addition).to(be_truthy)
@@ -49,7 +49,7 @@ describe 'Instructions' do
   end
 
   describe 'multiplication' do
-    let(:instruction) { Instruction.for(2, 0, [], []) }
+    let(:instruction) { Instruction.for(2, 0, [], [], rel_base_setter) }
 
     it 'handles simple multiplication' do
       state = [2,3,0,3,99]
@@ -63,4 +63,6 @@ describe 'Instructions' do
       expect(steps).to(eq 4)
     end
   end
+
+  let(:rel_base_setter) { Proc.new {} }
 end
