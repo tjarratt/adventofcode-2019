@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'intcode', 'lib')
-require 'intcode_computer'
+require 'nonblocking_computer'
 
 def main
   program = read_input
@@ -16,7 +16,7 @@ def main
       reader = queues[index - 1]
       writer = queues[index]
 
-      IntcodeComputer.new(reader, writer)
+      NonblockingIntcodeComputer.new(reader, writer)
     end
 
     computers.each { |c| c.reader << permutation.shift }

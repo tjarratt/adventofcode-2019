@@ -12,7 +12,6 @@ def main
 
   computer = IntcodeComputer.new(reader, writer)
   computer.evaluate(program)
-  sleep 0.000001 while computer.running?
 
   while !writer.empty?
     value = writer.pop

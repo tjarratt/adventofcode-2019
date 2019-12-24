@@ -1,5 +1,6 @@
 require 'program'
 require 'instruction'
+require 'nonblocking_computer'
 
 class IntcodeComputer
   attr_reader :reader, :writer
@@ -7,39 +8,24 @@ class IntcodeComputer
   def initialize(reader = Queue.new, writer = Queue.new)
     @reader = reader
     @writer = writer
-  end
 
-  def running?
-    @thread.status != false
+    @wrapped = NonblockingIntcodeComputer.new(reader, writer)
   end
 
   def evaluate(data)
-    program = Program.new(data)
+    @wrapped.evaluate(data)
 
-    @thread = Thread.new do
-      eval_index = 0
-      @relative_index = 0
-
-      while true do
-        raw_op = program[eval_index]
-        instruction = Instruction.for(raw_op, eval_index, @reader, @writer, method(:update_relative_base))
-
-        Thread.exit if instruction.terminate?
-
-        begin
-          eval_index = instruction.evaluate(program)
-        rescue Exception => e
-          raise e
-        end
-      end
-    end
-
-    # explicitly return nothing so we don't leak a thread to callers
-    nil
+    sleep 0.000001 while @wrapped.running?
   end
 
-  def update_relative_base(offset)
-    @relative_index += offset
+  def method_missing(method, *args, &block)
+    raise Exception.new("unknown method #{method}") unless valid?(method)
+
+    @wrapped.send(method, *args, &block)
+  end
+
+  private def valid?(method)
+    @wrapped.respond_to?(method)
   end
 end
 

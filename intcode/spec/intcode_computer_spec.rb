@@ -120,9 +120,7 @@ describe 'IntcodeComputer' do
 
   it 'can output quines' do
     quine = [109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]
-
     computer.evaluate(quine)
-    sleep 0.000001 while computer.running?
 
     full_output = []; full_output << output.pop while output.size > 0
 
