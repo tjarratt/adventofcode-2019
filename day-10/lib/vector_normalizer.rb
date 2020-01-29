@@ -1,3 +1,5 @@
+require 'vector'
+
 class VectorNormalizer
   def normalize(vector)
     x, y = gcd(vector.x, vector.y)
@@ -21,31 +23,6 @@ class VectorNormalizer
       return [x, y] if y.gcd(x) == 1
       return [x / y.gcd(x), y / y.gcd(x)]
     end
-  end
-end
-
-class Vector
-  attr_reader :x, :y
-
-  def initialize(x, y)
-    @x = x
-    @y = y
-  end
-
-  def equal?(other)
-    return other.x == @x && other.y == @y
-  end
-
-  def eql?(other)
-    equal?(other)
-  end
-
-  def hash
-    [@x, @y].hash
-  end
-
-  def length
-    Math.sqrt(@x * @x + @y * @y)
   end
 end
 

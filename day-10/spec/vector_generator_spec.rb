@@ -9,7 +9,9 @@ describe VectorGenerator do
 
     vectors = subject.generate(point)
     expect(vectors.size).to eq 21
-    expect(vectors).to include [0, 1]
+    expect(vectors.first).to eq [0, 1]
+    expect(vectors.last).to eq [1, 0]
+
     expect(vectors).to include [1, 5]
     expect(vectors).to include [1, 4]
     expect(vectors).to include [1, 3]
@@ -29,7 +31,6 @@ describe VectorGenerator do
     expect(vectors).to include [5, 3]
     expect(vectors).to include [5, 2]
     expect(vectors).to include [5, 1]
-    expect(vectors).to include [1, 0]
   end
 
   it 'generates vectors with negative components as well' do
@@ -37,7 +38,9 @@ describe VectorGenerator do
 
     vectors = subject.generate(point)
     expect(vectors.size).to eq 21
-    expect(vectors).to include [0, -1]
+    expect(vectors.first).to eq [0, -1]
+    expect(vectors.last).to eq [-1, -0]
+
     expect(vectors).to include [-1, -5]
     expect(vectors).to include [-1, -4]
     expect(vectors).to include [-1, -3]
@@ -57,6 +60,12 @@ describe VectorGenerator do
     expect(vectors).to include [-5, -3]
     expect(vectors).to include [-5, -2]
     expect(vectors).to include [-5, -1]
-    expect(vectors).to include [-1, -0]
+  end
+
+  it 'generates a clockwise sorted list, starting with [0, 1]' do
+    point = [1, 1]
+    vectors = subject.generate(point)
+
+    expect(vectors.first).to eq [0, 1]
   end
 end
