@@ -139,7 +139,7 @@ func vec_to_degrees(vector Vector) float64 {
 }
 
 func vec_to_length(vector Vector) float64 {
-	return math.Sqrt(float64(vector.X + vector.Y))
+	return math.Sqrt(math.Pow(float64(vector.X), 2) + math.Pow(float64(vector.Y), 2))
 }
 
 func (v Vector) toPoint() Point {
